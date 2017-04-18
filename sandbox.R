@@ -1,19 +1,18 @@
 library(rjson)
 library(dplyr)
 library(googleVis)
+library(RCurl)
 
 creds = fromJSON(file = "credentials.json")
 
 endpoint = paste("https://data.colorado.gov/resource/idu3-cuww.json?$$app_token=",creds$token,sep="")
 
 cols = "*"
-rows = 2000
-offsetRows = 50
+limitRows = as.character(2000)
+offsetRows = as.character(50)
 selections = paste("&$select=",cols,sep="")
-
-
-
-request = paste(endpoint,query,sep="")
+queryAPI = paste(selections,'&$limit=',limitRows,'&$offset=',offsetRows,sep='')
+request = paste(endpoint,queryAPI,sep="")
 
 data = fromJSON(getURL(request))
 
